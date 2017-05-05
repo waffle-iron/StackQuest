@@ -37,6 +37,7 @@ const mapState = {
     // Transportation
     BGuy = this.add.text(400, 400, 'B', { font: '32px Arial', fill: '#f27c4f', align: 'center' })
     this.physics.enable(BGuy, Phaser.Physics.ARCADE)
+    console.log('BGuy', BGuy)
     // console.log('A Guy Stuff initial', AGuy)
   },
   update: function() {
@@ -61,10 +62,15 @@ const mapState = {
       this.state.start('anotherMapState')
     }
     // if bullet collides with B, kill B!
-    if (this.physics.arcade.collide(BGuy, weapon)){
-      BGuy.destroy()
-    }
+    // if (this.physics.arcade.overlap(BGuy, weapon)) {
+    //   console.log('BGuy is hit!')
+    //   BGuy.destroy()
+    // }
+    this.physics.arcade.overlap(weapon, BGuy, function(BGuy, weapon) {
+      console.log('BGuy hit!')
+    })
     if (firebutton.isDown) {
+      console.log('weapon', weapon)
       weapon.fire()
     }
     if (cursors.up.isDown) {
