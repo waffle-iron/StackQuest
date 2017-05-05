@@ -8,13 +8,13 @@ export const GamePlayers = {
 
 export function updateCoordinates(x, y, direction, currentCharId) {
   // updates the x and y coordinates of the user's character
-  database.ref('characters/' + currentCharId + '/position').update({
+  database.ref('updatedCharacter/' + currentCharId + '/position').update({
     x, y, direction,
   })
 }
 
 // Updates the phaser models
-export function updateGame(characters) {
+export function updatePosition(characters) {
   for (const characterId in characters) {
     if (!GamePlayers[characterId]) {
       GamePlayers[characterId] = StackQuest.add.text(characters[characterId].position.x, characters[characterId].position.y, 'wizard', { font: '32px Arial', fill: '#ffffff', align: 'center' })
@@ -30,11 +30,10 @@ export function updateGame(characters) {
 }
 
 // A listener for updated character positions
-export const onCharacterUpdate = database.ref('characters/')
+export const onCharacterUpdate = database.ref('updatedCharacter/')
 onCharacterUpdate.on('value', snapshot => {
   const characters = snapshot.val()
-
-  updateGame(characters)
+  updatePosition(characters)
 })
 
 // When a user creates a character
