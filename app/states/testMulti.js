@@ -1,6 +1,9 @@
 // Util functions for firebase database
+const throttle = require('lodash.throttle')
 import {addCharacter, GamePlayers, onCharacterUpdate, updateCoordinates, updateOnCharacterMovement} from './firebase-database'
 const dummyCharId = `character${Math.floor(Math.random()*50)}`
+
+const throttledUpdate = throttle(updateCoordinates, 33);
 
 const testObj = {
   class: 'wizard',
@@ -60,16 +63,16 @@ const testState = {
     fixedText.body.fixedRotation = true
     if (cursors.up.isDown) {
       fixedText.body.moveUp(200)
-      updateCoordinates(fixedText.position.x, fixedText.position.y, fixedText.body.rotation, dummyCharId)
+      throttledUpdate(fixedText.position.x, fixedText.position.y, fixedText.body.rotation, dummyCharId)
     } else if (cursors.down.isDown) {
       fixedText.body.moveDown(200)
-      updateCoordinates(fixedText.position.x, fixedText.position.y, fixedText.body.rotation, dummyCharId)
+      throttledUpdate(fixedText.position.x, fixedText.position.y, fixedText.body.rotation, dummyCharId)
     } if (cursors.left.isDown) {
       fixedText.body.moveLeft(200)
-      updateCoordinates(fixedText.position.x, fixedText.position.y, fixedText.body.rotation, dummyCharId)
+      throttledUpdate(fixedText.position.x, fixedText.position.y, fixedText.body.rotation, dummyCharId)
     } else if (cursors.right.isDown) {
       fixedText.body.moveRight(200)
-      updateCoordinates(fixedText.position.x, fixedText.position.y, fixedText.body.rotation, dummyCharId)
+      throttledUpdate(fixedText.position.x, fixedText.position.y, fixedText.body.rotation, dummyCharId)
     }
   },
 
