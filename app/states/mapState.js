@@ -1,6 +1,6 @@
 import StackQuest from '../main'
 
-let cursors, AGuy, BGuy, ZGuy
+let cursors, AGuy, BGuy, weapon, firebutton
 const mapState = {
   init: function(x, y) {
     if (!x && !y) return
@@ -25,9 +25,18 @@ const mapState = {
       AGuy.body.collideWorldBounds = true
       this.camera.follow(AGuy)
     }
+    // A's Gun
+    weapon = this.add.weapon(30, 'bullet')
+    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
+    weapon.bulletSpeed = 100
+    // bounds bullets to AGuy
+    weapon.trackPointer(AGuy)
+    // number of bullets per millisecond
+    weapon.fireRate = 0.003
+    firebutton = this.input.keyboard.addKey(Phaser.KeyCode.F)
     // Transportation
     BGuy = this.add.text(400, 400, 'B', { font: '32px Arial', fill: '#f27c4f', align: 'center' })
-    StackQuest.physics.enable(BGuy, Phaser.Physics.ARCADE)
+    this.physics.enable(BGuy, Phaser.Physics.ARCADE)
     // console.log('A Guy Stuff initial', AGuy)
   },
   update: function() {
@@ -51,6 +60,13 @@ const mapState = {
     if (this.physics.arcade.collide(AGuy, BGuy)) {
       this.state.start('anotherMapState')
     }
+    // if bullet collides with B, kill B!
+    if (this.physics.arcade.collide(BGuy, weapon)){
+      BGuy.destroy()
+    }
+    if (firebutton.isDown) {
+      weapon.fire()
+    }
     if (cursors.up.isDown) {
       AGuy.position.y -= 2
     } else if (cursors.down.isDown) {
@@ -62,7 +78,7 @@ const mapState = {
     }
   },
   render: function() {
-    this.game.debug.cameraInfo(StackQuest.camera, 32, 32)
+    this.game.debug.cameraInfo(this.camera, 32, 32)
   }
 }
 

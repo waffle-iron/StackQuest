@@ -1,6 +1,6 @@
 import StackQuest from '../main'
 
-let cursors, CGuy, DGuy, ZGuy
+let cursors, CGuy, DGuy
 const anotherMapState = {
   init: function(x, y) {
     if (!x && !y) return
