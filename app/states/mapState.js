@@ -64,6 +64,7 @@ const mapState = {
       console.log('Bullet fired!', this.bullets)
 
       this.bullets.children.forEach((bullet) => {
+        bullet.body.setZeroVelocity()
         bullet.body.moveUp(200)
         console.log('')
       })
