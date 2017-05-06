@@ -6,7 +6,6 @@ const mapState = {
     this.world.setBounds(0, 0, 1920, 1080)
     this.physics.startSystem(Phaser.Physics.P2JS)
     if (!x && !y) return
-    // ZGuy = this.add.text(x, y, 'Z', { font: '18px Arial', fill: '#f26c4f', align: 'center' })
     AGuy = this.add.text(x, y, 'A', { font: '18px Arial', fill: '#f26c4f', align: 'center' })
     cursors = this.input.keyboard.createCursorKeys()
     this.physics.p2.enable(AGuy)
@@ -14,7 +13,7 @@ const mapState = {
     this.physics.p2.updateBoundsCollisionGroup()
   },
   preload: function() {
-
+    this.load.image('bullet', 'bullet.png')
   },
   create: function() {
     // Mover
@@ -29,27 +28,23 @@ const mapState = {
     // A's Gun
     // weapon = this.add.weapon(30, 'bullet')
     // weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
-    weapon.bulletSpeed = 100
+    // weapon.bulletSpeed = 100
     // bounds bullets to AGuy
-    weapon.trackPointer(AGuy)
+    // weapon.trackPointer(AGuy)
     // number of bullets per millisecond
-    weapon.fireRate = 0.003
+    // weapon.fireRate = 0.003
+    this.createBullets()
+    console.log('bullets', this.bullets)
     firebutton = this.input.keyboard.addKey(Phaser.KeyCode.F)
     // Transportation
     BGuy = this.add.text(400, 400, 'B', { font: '32px Arial', fill: '#f27c4f', align: 'center' })
-    // this.physics.enable(BGuy, Phaser.Physics.ARCADE)
-    console.log('BGuy', BGuy)
+
     this.camera.follow(AGuy)
-    // Transportation
+
     BGuy = this.add.text(400, 400, 'B', { font: '32px Arial', fill: '#f27c4f', align: 'center' })
     this.physics.p2.enable(BGuy)
-    // console.log('A Guy Stuff initial', AGuy)
   },
   update: function() {
-    // console.log('A Guy Stuff', AGuy)
-    // if (AGuy.body.blocked.up || AGuy.body.blocked.down || AGuy.body.blocked.left || AGuy.body.blocked.right) {
-    //   this.state.start('anotherMapState', true, false, AGuy.position.x, AGuy.position.y)
-    // }
 
     if (AGuy.position.y <= this.world.bounds.top) {
       this.state.start('anotherMapState', true, false, AGuy.position.x, this.world.bounds.bottom - 20)
@@ -63,28 +58,22 @@ const mapState = {
     if (AGuy.position.x >= this.world.bounds.right) {
       this.state.start('anotherMapState', true, false, this.world.bounds.left + 20, AGuy.position.y)
     }
-    // if (AGuy.body.blocked.up) this.state.start('anotherMapState', true, false, AGuy.position.x, AGuy.position.y + 5)
-    if (this.physics.arcade.collide(AGuy, BGuy)) {
-      this.state.start('anotherMapState')
-    }
 
-    // if bullet collides with B, kill B!
-    // if (this.physics.arcade.overlap(BGuy, weapon)) {
-    //   console.log('BGuy is hit!')
-    //   BGuy.destroy()
-    // }
-    this.physics.arcade.overlap(weapon, BGuy, function(BGuy, weapon) {
-      console.log('BGuy hit!')
-    })
     if (firebutton.isDown) {
-      console.log('weapon', weapon)
-      weapon.fire()
+      // weapon.fire()
+      console.log('Bullet fired!', this.bullets)
+
+      this.bullets.children.forEach((bullet) => {
+        bullet.body.moveUp(200)
+        console.log('')
+      })
     }
     AGuy.body.setZeroVelocity()
     if (cursors.up.isDown) {
       AGuy.body.moveUp(200)
     } else if (cursors.down.isDown) {
       AGuy.body.moveDown(200)
+      console.log('bullets position?', this.bullets)
     } if (cursors.left.isDown) {
       AGuy.body.moveLeft(200)
     } else if (cursors.right.isDown) {
@@ -93,6 +82,18 @@ const mapState = {
   },
   render: function() {
     this.game.debug.cameraInfo(this.camera, 32, 32)
+  },
+  // function to create bullet group
+  createBullets: function() {
+    this.bullets = this.add.group()
+    this.bullets.enableBody = true
+    this.bullets.physicsBodyType = Phaser.Physics.P2JS
+    this.bullets.createMultiple(2, 'bullet', 0, false)
+    this.bullets.setAll('outOfBoundsKill', true)
+    this.bullets.setAll('checkWorldBounds', true)
+    this.bullets.setAllChildren('position.x', AGuy.position.x)
+    this.bullets.setAllChildren('position.y', AGuy.position.y)
+    console.log('Are bullets bounds?', this.bullets)
   }
 }
 
