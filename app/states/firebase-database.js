@@ -8,7 +8,7 @@ export const GamePlayers = {
 
 export function updateCoordinates(x, y, direction, currentCharId) {
   // updates the x and y coordinates of the user's character
-  database.ref('updatedCharacter/' + currentCharId + '/position').update({
+  database.ref('characters/' + currentCharId + '/position').update({
     x, y, direction,
   })
 }
@@ -30,7 +30,7 @@ export function updatePosition(characters) {
 }
 
 // A listener for updated character positions
-export const onCharacterUpdate = database.ref('updatedCharacter/')
+export const onCharacterUpdate = database.ref('characters/')
 onCharacterUpdate.on('value', snapshot => {
   const characters = snapshot.val()
   updatePosition(characters)
