@@ -3,7 +3,11 @@ const throttle = require('lodash.throttle')
 import {addCharacter, GamePlayers, onCharacterUpdate, updateCoordinates, updateOnCharacterMovement} from './firebase-database'
 const dummyCharId = `character${Math.floor(Math.random()*50)}`
 
+<<<<<<< HEAD
 const throttledUpdate = throttle(updateCoordinates, 32);
+=======
+const throttledUpdate = throttle(updateCoordinates, 50)
+>>>>>>> 9582c209890493d263f12b5d0bb0e670d7fb5b42
 
 const testObj = {
   class: 'wizard',
