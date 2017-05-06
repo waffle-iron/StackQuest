@@ -68,6 +68,9 @@ const mapState = {
         console.log('')
       })
     }
+    if (this.physics.arcade.collide(AGuy, BGuy)) {
+      this.state.start('anotherMapState')
+    }
     AGuy.body.setZeroVelocity()
     if (cursors.up.isDown) {
       AGuy.body.moveUp(200)
