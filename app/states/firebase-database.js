@@ -6,27 +6,40 @@ export const GamePlayers = {
 
 }
 
-export function updateCoordinates(x, y, direction, currentCharId) {
+export function updateCoordinates(x, y, direction, charId) {
   // updates the x and y coordinates of the user's character
-  database.ref('updatedCharacter/' + currentCharId + '/position').update({
-    x, y, direction,
-  })
+  database.ref('updatedCharacter/').transaction(currentData => ({
+    charId, x, y, direction,
+  }))
 }
 
 // Updates the phaser models
-export function updatePosition(characters) {
-  for (const characterId in characters) {
-    if (!GamePlayers[characterId]) {
-      GamePlayers[characterId] = StackQuest.add.text(characters[characterId].position.x, characters[characterId].position.y, 'wizard', { font: '32px Arial', fill: '#ffffff', align: 'center' })
-      GamePlayers[characterId].anchor.set(0.5, 1)
-    } else {
-      const currentPlayer = GamePlayers[characterId]
-      currentPlayer.position.x = characters[characterId].position.x
-      currentPlayer.position.y = characters[characterId].position.y
-      // currentPlayer.body.rotation = characters[characterId].position.rotation
-    }
-    // StackQuest.add.text(currentChar.position.x, currentChar.position.y, currentChar.class, { font: '20px Arial', fill: '#ffffff', align: 'center' })
+// export function updatePosition(characters) {
+//   for (const characterId in characters) {
+//     if (!GamePlayers[characterId]) {
+//       GamePlayers[characterId] = StackQuest.add.text(characters[characterId].position.x, characters[characterId].position.y, 'wizard', { font: '32px Arial', fill: '#ffffff', align: 'center' })
+//       GamePlayers[characterId].anchor.set(0.5, 1)
+//     } else {
+//       const currentPlayer = GamePlayers[characterId]
+//       currentPlayer.position.x = characters[characterId].position.x
+//       currentPlayer.position.y = characters[characterId].position.y
+//       // currentPlayer.body.rotation = characters[characterId].position.rotation
+//     }
+//     // StackQuest.add.text(currentChar.position.x, currentChar.position.y, currentChar.class, { font: '20px Arial', fill: '#ffffff', align: 'center' })
+//   }
+// }
+
+export function updatePosition({charId, x, y}) {
+  if (!GamePlayers[charId]) {
+    GamePlayers[charId] = StackQuest.add.text(x, y, 'wizard', { font: '32px Arial', fill: '#ffffff', align: 'center' })
+    GamePlayers[charId].anchor.set(0.5, 1)
+  } else {
+    const currentPlayer = GamePlayers[charId]
+    currentPlayer.position.x = x
+    currentPlayer.position.y = y
+    // currentPlayer.body.rotation = characters[characterId].position.rotation
   }
+  // StackQuest.add.text(currentChar.position.x, currentChar.position.y, currentChar.class, { font: '20px Arial', fill: '#ffffff', align: 'center' })
 }
 
 // A listener for updated character positions
