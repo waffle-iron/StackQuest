@@ -27,8 +27,8 @@ const mapState = {
       this.camera.follow(AGuy)
     }
     // A's Gun
-    weapon = this.add.weapon(30, 'bullet')
-    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
+    // weapon = this.add.weapon(30, 'bullet')
+    // weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
     weapon.bulletSpeed = 100
     // bounds bullets to AGuy
     weapon.trackPointer(AGuy)
@@ -37,7 +37,7 @@ const mapState = {
     firebutton = this.input.keyboard.addKey(Phaser.KeyCode.F)
     // Transportation
     BGuy = this.add.text(400, 400, 'B', { font: '32px Arial', fill: '#f27c4f', align: 'center' })
-    this.physics.enable(BGuy, Phaser.Physics.ARCADE)
+    // this.physics.enable(BGuy, Phaser.Physics.ARCADE)
     console.log('BGuy', BGuy)
     this.camera.follow(AGuy)
     // Transportation
