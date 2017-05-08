@@ -2,6 +2,8 @@ import { socket } from '../main'
 import { GamePlayers } from '../sockets'
 import { CharacterConstructor } from './staticClass'
 
+// Better naming convention please
+
 let charObj = new CharacterConstructor('wizard')
 
 charObj.speak()
@@ -68,12 +70,19 @@ export const testState = {
     OGuy = this.add.text(xCoord, yCoord, 'O', { font: '32px Arial', fill: '#ffffff' })
 
     // OGuy = this.add.text(xCoord, yCoord, 'O', { font: '32px Arial', fill: '#ffffff', align: 'center' })
+
+    // Where `this` is ambiguous(?) clarify it in constructor
+    // constructor(stuff) {
+    //  super(stuff)
+    //  this.camera = stuff.camera
+    // }
     this.physics.p2.enable(OGuy)
 
     this.camera.follow(OGuy)
 
     this.physics.p2.setBoundsToWorld(true, true, true, true, false)
 
+    // Fix later with ES6
     cursors = this.input.keyboard.createCursorKeys()
 
     // let testPlayer exist
@@ -84,6 +93,8 @@ export const testState = {
     OGuy.body.setZeroVelocity()
     OGuy.body.fixedRotation = true
 
+    // Not sure if this should be in this class
+    // Should be in character
     if (cursors.up.isDown) {
       console.log(OGuy)
       OGuy.body.moveUp(200)

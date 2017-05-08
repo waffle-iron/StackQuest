@@ -22,7 +22,7 @@ module.exports = require('express').Router()
     (req, res, next) =>
       User.create(req.body.user)
       .then(newUser => {
-        newUser.setCharacter(req.body.character)
+        newUser.setCharacter(req.body.character)  //this is not creating a character, need to be in character routes
         .then(() => res.status(201).json(newUser))
       })
       .catch(next))

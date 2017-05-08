@@ -4,6 +4,8 @@ import { CharacterConstructor } from './staticClass'
 
 let charObj = new CharacterConstructor('wizard')
 
+// Don't push unfinished refactored code to master
+
 charObj.speak()
 
 let map

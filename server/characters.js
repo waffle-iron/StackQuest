@@ -21,6 +21,7 @@ module.exports = require('express').Router()
       Character.findById(req.params.id)
       .then(user => res.json(user))
       .catch(next))
+  // .post()   add this
   .put('/:id',
     mustBeLoggedIn,
     (req, res, next) =>
@@ -32,6 +33,6 @@ module.exports = require('express').Router()
       })
       .spread((numAffected, updatedCharacter) => {
         if (updatedCharacter[0]) res.send(updatedCharacter[0])
-        else next('not found')
+        else throw new Error('not found')
       })
       .catch(next))

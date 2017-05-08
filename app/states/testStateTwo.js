@@ -1,8 +1,14 @@
+
+// Move into constructor of class
 let map
   , cursors
   , XGuy
   , xCoord = 100
   , yCoord = 100
+
+// Better naming convention please
+// ES6 ?
+// Can be classes
 
 const testState = {
   init(x, y) {
@@ -33,6 +39,11 @@ const testState = {
     const treeTopLayer = map.createLayer('tree_top_layer')
 
     waterLayer.resizeWorld()
+
+    // Store coordinates tiles some place
+    // Iterate over to dry this up
+    // [{num1:, num2:, bool:, tileType:}] // Gabe's is better
+    // [[ coord1, coord2]]
 
     map.setCollisionBetween(29, 30, true, waterLayer)
     map.setCollisionBetween(61, 62, true, waterLayer)

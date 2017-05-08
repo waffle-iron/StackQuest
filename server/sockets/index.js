@@ -20,6 +20,8 @@ const socket = io => {
     })
 
     socket.on('updatePlayer', playerPos => {
+      // STAHP DEAD CODE
+
       // GamePlayers[socket.id] = Object.assign({}, GamePlayers[socket.id], { pos: { x: playerPos.x, y: playerPos.y } })
       if (GamePlayers[socket.id]) {
         GamePlayers[socket.id] = { class: GamePlayers[socket.id].class, pos: { x: playerPos.x, y: playerPos.y } }

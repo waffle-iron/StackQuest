@@ -1,9 +1,13 @@
 import Prefab from '../states/entityPrefab'
+//this should be entityPrefab
 
 export default class Player extends Prefab {
   constructor(game, position, properties) {
     super(game, position)
 
+    // I don't know if you need this.stats
+    // this.totalAttack, etc...
+    // Up to you
     this.stats = {
       totalAttack: properties.stats.attack + properties.stats.weapon.damage,
       Hp: properties.stats.hp,
